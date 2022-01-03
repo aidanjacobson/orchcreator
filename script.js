@@ -279,6 +279,7 @@ function save() {
     unsaved = false;
 }
 function load() {
+    if (unsaved && !confirm("Warning: you will lose any unsaved changes. Proceed anyway?")) return;
     if (fi.files.length == 0)
         return;
     var fr = new FileReader();
