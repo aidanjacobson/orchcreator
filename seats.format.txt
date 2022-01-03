@@ -1,0 +1,20 @@
+{
+    data: Array [
+        *: Array<Row> [
+            0: Array<Chair> [
+                *: Int (0 if empty, otherwise instrument number)
+            ],
+            1: Array<Stand> [
+                *: Int (0 if empty, otherwise instrument number)
+            ]
+        ]
+    ],
+    colors: Array<Color> [
+        *: String (Hex color code for corresponding instrument)
+    ],
+    instruments: Array<Instrument> [
+        *: String (Instrument name)
+    ],
+    name: String,
+    basses: Int
+}

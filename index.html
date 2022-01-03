@@ -1,0 +1,105 @@
+<div id="wshold" style="width: 59%; height: 99%; display: inline-block; outline: 3px solid; position: fixed; top: 0%; left: 1%;">
+    <canvas id="workspace"></canvas>
+</div>
+<div style="width: 38%; height: 99%; display: inline-block; outline: 1px solid; position: fixed; top: 0%; right: 1%; overflow: scroll" id="controls">
+    <div id="shortcuts">
+        <span onclick="toggleExpanded()" id="expander">List of keyboard shortcuts (click to toggle)
+    </span>
+        <div id="content">
+            Up Arrow: move out a row<br>
+            Down Arrow: move in a row<br>
+            <br>
+            Left Arrow: move one stand to the left<br>
+            Right Arrow: move one stand to the left<br>
+            Shift + Left Arrow: move one chair to the left<br>
+            Shift + Right Arrow: move one chair to the right<br>
+            <br>
+            1: Stand color 1<br>
+            2: Stand color 2<br>
+            3: Stand color 3<br>
+            4: Stand color 4<br>
+            Esc: Turn stand off<br>
+            <br>
+            Shift + 1: Chair color 1<br>
+            Shift + 2: Chair color 2<br>
+            Shift + 3: Chair color 3<br>
+            Shift + 4: Chair color 4<br>
+            Shift + Esc: Turn chair off<br>
+            <br>
+            P: Preview<br>
+            Shift + P: Print<br>
+            <br>
+            S: Save<br>
+            L: Load<br>
+            <br>
+            R: Reset Page<br>
+            C: Clear Row<br>
+            <br>
+            M: Merge Files<br>
+
+        </div>
+    </div>
+    <hr>
+    <span id="cEdit">Currently editing: [no name]</span>
+    <hr>
+    <input type="text" id="wNameInput" placeholder="Name your setup" onchange="unsaved = true;" />
+    <button onclick="exportDocument(wNameInput.value, false)">Preview for Printing</button>
+    <button onclick="exportDocument(wNameInput.value, true)">Print</button>
+    <hr>
+    <input type="checkbox" checked id="show"/>
+    Show Selection<br>
+    Currently selected row: <button onclick="addRows(-1)">-</button>
+    <span id="numRows">1</span>
+    <button onclick="addRows(1)">+</button>
+    <br>
+    Currently selected chair:<br>
+    <input id="chairSelect" type="range" value="0" min="0" max="7" style="width: 100%">
+    <br>
+    Stand:
+    <select id="standColor" onchange="doStandChange(); unsaved = true;">
+        <option>Off</option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+    </select>
+    <br>
+    Chair:
+    <select id="chairColor" onchange="doChairChange(); unsaved = true;">
+        <option>Off</option>
+        <option></option>
+        <option></option>
+        <option></option>
+        <option></option>
+    </select>
+    <hr>
+    <div id="colorControls">
+        <span></span>
+        <input type="hidden" id="p0" value="#ffffff"/>
+        <span></span>
+        <span></span>
+        <input type="text" id="t1" placeholder="Enter instrument name" onchange="updateSelectOptions()"/><input type="color" id="p1" value="#ff0000"/>
+        <button onclick="deleteColor(event)">Delete</button>
+        <br>
+        <input type="text" id="t2" placeholder="Enter instrument name" onchange="updateSelectOptions()"/><input type="color" id="p2" value="#00ff00"/>
+        <button onclick="deleteColor(event)">Delete</button>
+        <br>
+        <input type="text" id="t3" placeholder="Enter instrument name" onchange="updateSelectOptions()"/><input type="color" id="p3" value="#0000ff"/>
+        <button onclick="deleteColor(event)">Delete</button>
+        <br>
+        <input type="text" id="t4" placeholder="Enter instrument name" onchange="updateSelectOptions()"/><input type="color" id="p4" value="#ffff00"/>
+        <button onclick="deleteColor(event)">Delete</button>
+        <br>
+        <button onclick="addColor()" id="cAdder">Add Instrument</button>
+        <br>
+    </div>
+    Basses: <input type="number" id="nBasses" value="0" min="0"/>
+    <hr>
+    <button onclick="save()">Save To Computer</button>
+    <br>
+    Load file: <input type="file" id="fi" onchange="load()"/>
+    <hr>
+    <a href="merge/merge.html" target="_blank"><button>Merge Files</button></a>
+</div>
+<script src="script.js"></script>
+<link href="style.css" rel="stylesheet">
