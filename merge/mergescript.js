@@ -33,6 +33,7 @@ async function merge() {
         output.data[i] = [chairArray, standArray];
     }
     output.name = prompt("Enter a name for your orchestra:", "Combined Orchestras");
+    if (output.name == null) return;
     output.basses = Math.max(...allData.map(e=>e.basses));
     generateAndSaveFile(output);
 }
