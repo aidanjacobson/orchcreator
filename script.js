@@ -310,16 +310,11 @@ workspace.onclick = function doClickChairSelect(e) {
     var y = e.clientY - rect.top;
     for (var i = 0; i < poss.length; i++) {
         if (isInArea(x, y, poss[i][0], poss[i][1], poss[i][2] + expandRadius)) {
-            console.log("c");
             show.checked = true;
-            var add = 0;
-            /*if (poss[i][5] == 0 && Math.floor(poss[i][4] / 2) == Math.floor(chairSelect.value / 2)) {
-                add = 1;
-            }*/
             row = poss[i][3] + 1;
             numRows.innerText = row;
             addRows(0);
-            chairSelect.value = poss[i][4] + add;
+            chairSelect.value = poss[i][4];
             doSelectUpdate();
             return;
         }
