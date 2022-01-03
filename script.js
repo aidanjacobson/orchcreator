@@ -90,14 +90,12 @@ function render() {
             standPercent += 1 / rowArray[i][1].length / 2;
             var sdx = Math.cos(standPercent * Math.PI) * r;
             var sdy = Math.sin(standPercent * Math.PI) * r;
-            if (rowArray[i][1][j] != 0 || show.checked) {
+            poss.push([cstandx - sdx, cstandy - sdy, 4, i, j * 2, 1]);
+            if (rowArray[i][1][j] != 0) {
                 ctx.fillStyle = colorControls.children[rowArray[i][1][j] * 4 + 1].value;
-                poss.push([cstandx - sdx, cstandy - sdy, 4, i, j * 2, 1]);
-                if (rowArray[i][1][j] != 0) {
-                    ctx.beginPath();
-                    ctx.arc(cstandx - sdx, cstandy - sdy, 4, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(cstandx - sdx, cstandy - sdy, 4, 0, 2 * Math.PI);
+                ctx.fill();
             }
             if (j == curSelStand && i == row - 1 && show.checked) {
                 ctx.strokeStyle = "black";
@@ -115,14 +113,12 @@ function render() {
             chairPercent1 += 1 / rowArray[i][1].length / 4;
             var c1dx = Math.cos(chairPercent1 * Math.PI) * (r + 20);
             var c1dy = Math.sin(chairPercent1 * Math.PI) * (r + 20);
-            if (rowArray[i][0][j * 2] != 0 || show.checked) {
+            poss.push([cstandx - c1dx, cstandy - c1dy, 2, i, j * 2, 0]);
+            if (rowArray[i][0][j * 2] != 0) {
                 ctx.fillStyle = colorControls.children[rowArray[i][0][j * 2] * 4 + 1].value;
-                poss.push([cstandx - c1dx, cstandy - c1dy, 2, i, j * 2, 0]);
-                if (rowArray[i][0][j * 2] != 0) {
-                    ctx.beginPath();
-                    ctx.arc(cstandx - c1dx, cstandy - c1dy, 2, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(cstandx - c1dx, cstandy - c1dy, 2, 0, 2 * Math.PI);
+                ctx.fill();
             }
             if (i == row - 1 && j == curSelStand && curSelChair == 0 && show.checked) {
                 ctx.strokeStyle = "black";
@@ -140,14 +136,12 @@ function render() {
             chairPercent2 += 1 / rowArray[i][1].length / 4;
             var c2dx = Math.cos(chairPercent2 * Math.PI) * (r + 20);
             var c2dy = Math.sin(chairPercent2 * Math.PI) * (r + 20);
-            if (rowArray[i][0][j * 2 + 1] != 0 || show.checked) {
+            poss.push([cstandx - c2dx, cstandy - c2dy, 2, i, j * 2 + 1, 0]);
+            if (rowArray[i][0][j * 2 + 1] != 0) {
                 ctx.fillStyle = colorControls.children[rowArray[i][0][j * 2 + 1] * 4 + 1].value;
-                poss.push([cstandx - c2dx, cstandy - c2dy, 2, i, j * 2 + 1, 0]);
-                if (rowArray[i][0][j * 2 + 1] != 0) {
-                    ctx.beginPath();
-                    ctx.arc(cstandx - c2dx, cstandy - c2dy, 2, 0, 2 * Math.PI);
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(cstandx - c2dx, cstandy - c2dy, 2, 0, 2 * Math.PI);
+                ctx.fill();
             }
             if (i == row - 1 && j == curSelStand && curSelChair == 1 && show.checked) {
                 ctx.strokeStyle = "black";
@@ -316,17 +310,17 @@ workspace.onclick = function doClickChairSelect(e) {
     var y = e.clientY - rect.top;
     for (var i = 0; i < poss.length; i++) {
         if (isInArea(x, y, poss[i][0], poss[i][1], poss[i][2] + expandRadius)) {
+            console.log("c");
             show.checked = true;
             var add = 0;
-            if (row == poss[i][3] + 1 && Math.floor(poss[i][4] / 2) == Math.floor(chairSelect.value / 2) && poss[i][5] == 1) {
+            /*if (poss[i][5] == 0 && Math.floor(poss[i][4] / 2) == Math.floor(chairSelect.value / 2)) {
                 add = 1;
-            }
+            }*/
             row = poss[i][3] + 1;
             numRows.innerText = row;
             addRows(0);
             chairSelect.value = poss[i][4] + add;
             doSelectUpdate();
-            console.log(i, poss[i]);
             return;
         }
     }
@@ -353,7 +347,7 @@ window.onkeydown = function(e) {
     }
     if (e.key == "ArrowLeft") {
         show.checked = true;
-        if (e.shiftKey) {
+        if (!e.shiftKey) {
             chairSelect.value = Math.max(+chairSelect.value - 1, +chairSelect.min);
         } else {
             if (+chairSelect.value != 1) {
@@ -363,7 +357,7 @@ window.onkeydown = function(e) {
     }
     if (e.key == "ArrowRight") {
         show.checked = true;
-        if (e.shiftKey) {
+        if (!e.shiftKey) {
             chairSelect.value = Math.min(+chairSelect.value + 1, +chairSelect.max);
         } else {
             if (+chairSelect.value != +chairSelect.max - 1) {
@@ -411,7 +405,7 @@ window.onkeydown = function(e) {
             doStandChange();
         }
     }
-    if (e.key == "Escape") {
+    if (e.key == "Delete") {
         show.checked = true;
         if (e.shiftKey) {
             chairColor.selectedIndex = 0;
