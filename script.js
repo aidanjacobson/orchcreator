@@ -180,10 +180,11 @@ function exportDocument(wName, wPrint=false) {
     var w = window.open("about:blank");
     w.document.head.appendChild(w.document.createElement("title")).innerText = wName;
     var url = workspace.toDataURL();
+    var stats = w.document.createElement("div");
     var im = w.document.createElement("img");
     im.src = url;
-    w.document.body.append(im);
-    w.document.body.append(w.document.createElement("br"));
+    stats.append(im);
+    stats.append(w.document.createElement("br"));
     var ins = getInstrumentList();
     var rowStandSubTotals = new Array(rowArray.length).fill(0).map(()=>new Array(ins.length).fill(0));
     var rowSubTotals = new Array(rowArray.length).fill(0).map(()=>new Array(ins.length).fill(0));
@@ -244,13 +245,15 @@ function exportDocument(wName, wPrint=false) {
     cRow.appendChild(w.document.createElement("td")).innerText = `${listC}:${listS} (${+nBasses.value + listS} with basses)`;
     table.appendChild(cRow);
     table.children[0].children[0].classList.toggle("onleft");
-    w.document.body.appendChild(table);
-    w.document.body.appendChild(w.document.createElement("br"));
-    w.document.body.appendChild(w.document.createElement("p")).innerText = `(Basses) ${nBasses.value} stools, +${nBasses.value} stands`;
-    w.document.body.appendChild(w.document.createElement("span")).innerText = "Made with Aidan's Orchestra Seating Generator";
+    stats.appendChild(table);
+    stats.appendChild(w.document.createElement("br"));
+    stats.appendChild(w.document.createElement("p")).innerText = `(Basses) ${nBasses.value} stools, +${nBasses.value} stands`;
+    stats.appendChild(w.document.createElement("span")).innerText = "Made with Aidan's Orchestra Seating Generator";
+    w.document.body.appendChild(stats);
 
     var style = w.document.createElement("style");
-    style.innerText = "td {width: 100px; height: 20px; border: 1px dashed} .onleft {border-right: 2px solid} .ontop {border-bottom: 2px solid}";
+    //console.log(Math.floor(95/(ins.length+2)));
+    style.innerText = `td {width: ${Math.floor(95/(ins.length+2))}%; height: 20px; border: 1px dashed} .onleft {border-right: 2px solid} .ontop {border-bottom: 2px solid}`;
     w.document.head.appendChild(style);
     show.checked = cstate;
     if (wPrint) {
